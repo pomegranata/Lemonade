@@ -90,7 +90,7 @@ fun LemonadeProperties(
 @Composable
 fun Lemonade() {
 
-    var squeeze by remember {
+    var squeezeCount by remember {
         mutableStateOf(0)
     }
 
@@ -110,7 +110,7 @@ fun Lemonade() {
                     textValue = R.string.tap,
                     onImageClick = {
                         stepNow = 2
-                        squeeze = (2..4).random()
+                        squeezeCount = (2..4).random()
                     }
                 )
             }
@@ -120,8 +120,8 @@ fun Lemonade() {
                     contentDesc = R.string.lemon,
                     textValue = R.string.squeeze,
                     onImageClick = {
-                        squeeze--
-                        if (squeeze == 0) {
+                        squeezeCount--
+                        if (squeezeCount == 0) {
                             stepNow = 3
                         }
                     })
