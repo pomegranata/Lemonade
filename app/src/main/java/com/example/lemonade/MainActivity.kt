@@ -4,13 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.lemonade.ui.theme.LemonadeTheme
@@ -45,232 +47,95 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-/*
-@Composable
-fun LemonTree(modifier: Modifier = Modifier) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.lemon_tree),
-            contentDescription = stringResource(id = R.string.tree),
-            modifier = Modifier
-                .wrapContentSize()
-                .clickable {
-                    var currentStep = 2
-                }
-        )
-        Spacer(
-            modifier = Modifier.height(32.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.tap),
-            fontSize = 18.sp
-        )
-    }
-}
+
 
 @Composable
-fun LemonSqueeze(modifier: Modifier = Modifier) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.lemon_squeeze),
-            contentDescription = stringResource(id = R.string.lemon),
+fun LemonadeProperties(
+    painterID: Int,
+    contentDesc: Int,
+    textValue: Int,
+    onImageClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .wrapContentSize()
-                .clickable {
-                    var currentStep = 3
-                }
-        )
-        Spacer(
-            modifier = modifier.height(16.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.squeeze),
-            fontSize = 18.sp
-        )
+                .fillMaxSize()
+        ) {
+            Button(
+                onClick = onImageClick,
+                modifier = Modifier
+                    .border(2.dp, Color(red = 105, green = 205, blue = 216), RoundedCornerShape(4.dp))
+            ) {
+                Image(
+                    painter = painterResource(id = painterID),
+                    contentDescription = stringResource(id = contentDesc)
+                )
+            }
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
+            Text(
+                text = stringResource(id = textValue),
+                fontSize = 18.sp
+            )
+        }
     }
 }
-
-@Composable
-fun LemonReadyToDrink(modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.lemon_drink),
-            contentDescription = stringResource(id = R.string.glass),
-            modifier = Modifier
-                .wrapContentSize()
-                .clickable {
-                    var currentStep = 4
-                }
-        )
-        Spacer(
-            modifier = modifier.height(16.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.drink),
-            fontSize = 18.sp
-        )
-    }
-}
-
-@Composable
-fun RestartMaking(modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.lemon_restart),
-            contentDescription = stringResource(id = R.string.empty_glass),
-            modifier = Modifier
-                .wrapContentSize()
-                .clickable {
-                    var currentStep = 1
-                }
-        )
-        Spacer(
-            modifier = modifier.height(16.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.empty),
-            fontSize = 18.sp
-        )
-    }
-}
-*/
 
 
 @Composable
 fun Lemonade() {
 
-    var currentStep by remember {
-        mutableStateOf(value = 1)
+    var stepNow by remember {
+        mutableStateOf(1)
     }
-
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        when (currentStep) {
+        when (stepNow) {
             1 -> {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.lemon_tree),
-                        contentDescription = stringResource(id = R.string.tree),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .clickable {
-                                currentStep = 2
-                            }
-                    )
-                    Spacer(
-                        modifier = Modifier.height(32.dp)
-                    )
-                    Text(
-                        text = stringResource(id = R.string.tap),
-                        fontSize = 18.sp
-                    )
-                }
+                LemonadeProperties(
+                    painterID = R.drawable.lemon_tree,
+                    contentDesc = R.string.tree,
+                    textValue = R.string.tap,
+                    onImageClick = {
+                        stepNow = 2
+                    }
+                )
             }
             2 -> {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.lemon_squeeze),
-                        contentDescription = stringResource(id = R.string.lemon),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .clickable {
-                                currentStep = 3
-                            }
-                    )
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
-                    Text(
-                        text = stringResource(id = R.string.squeeze),
-                        fontSize = 18.sp
-                    )
-                }
+                LemonadeProperties(
+                    painterID = R.drawable.lemon_squeeze,
+                    contentDesc = R.string.lemon,
+                    textValue = R.string.squeeze,
+                    onImageClick = {
+                        stepNow = 3
+                    })
             }
             3 -> {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.lemon_drink),
-                        contentDescription = stringResource(id = R.string.glass),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .clickable {
-                                currentStep = 4
-                            }
-                    )
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
-                    Text(
-                        text = stringResource(id = R.string.drink),
-                        fontSize = 18.sp
-                    )
-                }
+                LemonadeProperties(painterID = R.drawable.lemon_drink,
+                    contentDesc = R.string.glass,
+                    textValue = R.string.drink,
+                    onImageClick = {
+                        stepNow = 4
+                    }
+                )
             }
             4 -> {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.lemon_restart),
-                        contentDescription = stringResource(id = R.string.empty_glass),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .clickable {
-                                currentStep = 1
-                            }
-                    )
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
-                    Text(
-                        text = stringResource(id = R.string.empty),
-                        fontSize = 18.sp
-                    )
-                }
+                LemonadeProperties(painterID = R.drawable.lemon_restart,
+                    contentDesc = R.string.empty_glass,
+                    textValue = R.string.empty,
+                    onImageClick = {
+                        stepNow = 1
+                    }
+                )
             }
+        }
     }
-}
-
 }
 
 @Preview(showBackground = true)
